@@ -1,0 +1,20 @@
+{
+  "name": "nlcst-emoticon-modifier",
+  "version": "0.1.0",
+  "description": "Emoticons in NLCST",
+  "license": "MIT",
+  "keywords": [
+    "nlcst",
+    "emoticon"
+  ],
+  "dependencies": {
+    "wooorm/nlcst-to-string": "^0.1.0"
+  },
+  "repository": "wooorm/nlcst-emoticon-modifier",
+  "scripts": [
+    "index.js"
+  ],
+  "json": [
+    "data/emoticon.json"
+  ]
+}
