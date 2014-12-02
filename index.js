@@ -100,10 +100,10 @@ function mergeEmoticons(child, index, parent) {
                 end.indexOf(subvalue.charAt(subvalue.length - 1)) !== -1 &&
                 emoticons.indexOf(value) !== -1
             ) {
-                siblings.splice(index + 1, siblingIndex - index);
-
-                child.type = EMOTICON_NODE;
-                child.value = value;
+                siblings.splice(index, siblingIndex - index + 1, {
+                    'type': EMOTICON_NODE,
+                    'value': value
+                });
 
                 /**
                  * Some emoticons, like `:-`, can be followed by
