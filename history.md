@@ -2,6 +2,11 @@
 
 <!--lint disable no-multiple-toplevel-headings-->
 
+1.0.0 / 2015-08-29
+==================
+
+*   Refactor module ([849670e](https://github.com/wooorm/nlcst-emoticon-modifier/commit/849670e))
+
 0.1.1 / 2014-12-02
 ==================
 
