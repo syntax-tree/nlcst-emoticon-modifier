@@ -3,11 +3,7 @@ script: npm run-script test-travis
 node_js:
 - '0.10'
 - '0.11'
-after_script: npm install coveralls@2.10.0 && cat ./coverage/lcov.info | coveralls
-deploy:
-  provider: npm
-  email: tituswormer@gmail.com
-  api_key:
-    secure: fihRwIJeH75QuTGrJvk+n03Wr2MvPr04vL2yQ9rTC8hOWUZsn36qD9Kr1SASEpaTF5DcYvrjsnmDMztvQsYGCtEIQG3tIxZkpm2wQ0hXfPyt8csFEpS7kyBxmjKQVHm6htyb4AfPDo4E+lU/tws69U4o17Kc5LHnoXWm0JYVRRU=
-  on:
-    repo: wooorm/nlcst-emoticon-modifier
+- '0.12'
+- iojs
+sudo: false
+after_script: npm install codecov.io && cat ./coverage/lcov.info | codecov

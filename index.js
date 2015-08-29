@@ -1,24 +1,30 @@
+/**
+ * @author Titus Wormer
+ * @copyright 2014-2015 Titus Wormer
+ * @license MIT
+ * @module nlcst:emoticon-modifier
+ * @fileoverview Emoticons in NLCST.
+ */
+
 'use strict';
 
-/**
+/* eslint-env commonjs */
+
+/*
  * Dependencies.
  */
 
-var information,
-    nlcstToString;
+var toString = require('nlcst-to-string');
+var modifier = require('unist-util-modify-children');
+var information = require('./data/emoticon.json');
 
-information = require('./data/emoticon.json');
-nlcstToString = require('nlcst-to-string');
-
-/**
+/*
  * Constants: node types.
  */
 
-var EMOTICON_NODE;
+var EMOTICON_NODE = 'EmoticonNode';
 
-EMOTICON_NODE = 'EmoticonNode';
-
-/**
+/*
  * Constants: magic numbers.
  *
  * Emoticons are treated by a parser as multiple nodes.
@@ -31,65 +37,54 @@ EMOTICON_NODE = 'EmoticonNode';
  * safely break when the modifier has walked 5 characters.
  */
 
-var MAX_EMOTICON_LENGTH;
+var MAX_EMOTICON_LENGTH = 5;
 
-MAX_EMOTICON_LENGTH = 5;
-
-/**
- * Constants: info.
+/*
+ * Constants for emoticons.
  */
 
-var emoticons,
-    start,
-    end;
-
-emoticons = information.emoticons;
-start = information.start;
-end = information.end;
-
-start = new RegExp(start.join('|'));
+var emoticons = information.emoticons;
+var start = new RegExp(information.start.join('|'));
+var end = information.end;
 
 /**
  * Merge emoticons into an `EmoticonNode`.
  *
- * @param {CSTNode} child
- * @param {number} index
- * @param {CSTNode} parent
- * @return {undefined|number} - Either void, or the
- *   next index to iterate over.
+ * @param {CSTNode} child - Node to check.
+ * @param {number} index - Position of `child` in `parent`.
+ * @param {CSTNode} parent - Parent of `node`.
+ * @return {number?} - Either void, or the next index to
+ *   iterate over.
  */
-
 function mergeEmoticons(child, index, parent) {
-    var siblings,
-        siblingIndex,
-        node,
-        value,
-        subvalue;
+    var siblings;
+    var value;
+    var siblingIndex;
+    var node;
+    var emoticon;
+    var subvalue;
 
-    /**
+    /*
      * Check if `child`s first character could be used
      * to start an emoticon.
      */
 
-    if (start.test(nlcstToString(child).charAt(0))) {
+    if (start.test(toString(child).charAt(0))) {
         siblings = parent.children;
-
-        value = '';
-
         siblingIndex = index;
-
         node = child;
+        value = '';
 
         while (node) {
             if (value.length >= MAX_EMOTICON_LENGTH) {
                 return;
             }
 
-            subvalue = nlcstToString(node);
+            subvalue = toString(node);
 
             value += subvalue;
 
-            /**
+            /*
              * The second test, if the last character of
              * the current node is superfluous but
              * improves performance by 30%.
@@ -100,12 +95,21 @@ function mergeEmoticons(child, index, parent) {
                 end.indexOf(subvalue.charAt(subvalue.length - 1)) !== -1 &&
                 emoticons.indexOf(value) !== -1
             ) {
-                siblings.splice(index, siblingIndex - index + 1, {
+                emoticon = {
                     'type': EMOTICON_NODE,
                     'value': value
-                });
+                };
 
-                /**
+                if (child.position && node.position) {
+                    emoticon.position = {
+                        'start': child.position.start,
+                        'end': node.position.end
+                    }
+                }
+
+                siblings.splice(index, siblingIndex - index + 1, emoticon);
+
+                /*
                  * Some emoticons, like `:-`, can be followed by
                  * more characters to form other emoticons.
                  */
@@ -118,30 +122,8 @@ function mergeEmoticons(child, index, parent) {
     }
 }
 
-var emoticonModifier;
-
-function attach(parser) {
-    if (!parser || !parser.parse) {
-        throw new Error(
-            '`parser` is not a valid parser for ' +
-            '`attach(parser)`. Make sure something ' +
-            'like `parse-latin` is passed.'
-        );
-    }
-
-    /**
-     * Make sure to not re-attach the modifiers.
-     */
-
-    if (!emoticonModifier) {
-        emoticonModifier = parser.constructor.modifier(mergeEmoticons);
-    }
-
-    parser.useFirst('tokenizeSentence', emoticonModifier);
-}
-
-/**
- * Expose `attach`.
+/*
+ * Expose.
  */
 
-module.exports = attach;
+module.exports = modifier(mergeEmoticons);
