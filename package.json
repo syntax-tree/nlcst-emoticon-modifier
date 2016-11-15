@@ -12,7 +12,7 @@
     "unist-util-modify-children": "^1.0.0"
   },
   "repository": "wooorm/nlcst-emoticon-modifier",
-  "author": "Titus Wormer <tituswormer@gmail.com>",
+  "author": "Titus Wormer <mailto:tituswormer@gmail.com>",
   "files": [
     "data/emoticon.json",
     "index.js"
@@ -23,13 +23,9 @@
     "emoticon": "^2.0.0",
     "esmangle": "^1.0.0",
     "istanbul": "^0.4.0",
-    "mdast": "^1.0.0",
-    "mdast-comment-config": "^1.0.0",
-    "mdast-github": "^1.0.0",
-    "mdast-lint": "^1.0.0",
-    "mdast-slug": "^1.0.0",
-    "mdast-validate-links": "^1.0.0",
     "mocha": "^3.0.0",
+    "remark-cli": "^2.1.0",
+    "remark-preset-wooorm": "^1.0.0",
     "retext": "^4.0.0",
     "retext-english": "^2.0.0",
     "xo": "^0.17.1"
@@ -44,7 +40,7 @@
     "bundle": "browserify index.js --no-builtins -s nlcstEmoticonModifier > nlcst-emoticon-modifier.js",
     "postbundle": "esmangle nlcst-emoticon-modifier.js > nlcst-emoticon-modifier.min.js",
     "build-data": "node script/build-data.js",
-    "build-md": "mdast . --quiet",
+    "build-md": "remark . --quiet --frail --output",
     "build": "npm run build-data && npm run bundle && npm run build-md"
   },
   "xo": {
@@ -55,5 +51,8 @@
     "ignore": [
       "nlcst-emoticon-modifier.js"
     ]
+  },
+  "remarkConfig": {
+    "presets": "wooorm"
   }
 }
