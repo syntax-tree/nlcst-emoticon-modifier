@@ -8,19 +8,17 @@
     "emoticons"
   ],
   "dependencies": {
+    "emoticon": "^2.0.0",
     "nlcst-to-string": "^2.0.0",
     "unist-util-modify-children": "^1.0.0"
   },
   "repository": "wooorm/nlcst-emoticon-modifier",
   "author": "Titus Wormer <mailto:tituswormer@gmail.com>",
   "files": [
-    "data/emoticon.json",
     "index.js"
   ],
   "devDependencies": {
-    "array-uniq": "^1.0.3",
     "browserify": "^13.0.0",
-    "emoticon": "^2.0.0",
     "esmangle": "^1.0.0",
     "is-hidden": "^1.1.0",
     "negate": "^1.0.0",
@@ -40,9 +38,8 @@
     "make": "npm run lint && npm run test-coverage",
     "bundle": "browserify index.js --no-builtins -s nlcstEmoticonModifier > nlcst-emoticon-modifier.js",
     "postbundle": "esmangle nlcst-emoticon-modifier.js > nlcst-emoticon-modifier.min.js",
-    "build-data": "node script/build-data.js",
     "build-md": "remark . --quiet --frail --output",
-    "build": "npm run build-data && npm run bundle && npm run build-md"
+    "build": "npm run bundle && npm run build-md"
   },
   "nyc": {
     "check-coverage": true,

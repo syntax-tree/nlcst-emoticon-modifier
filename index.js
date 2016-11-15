@@ -3,7 +3,7 @@
 /* Dependencies. */
 var toString = require('nlcst-to-string');
 var modifier = require('unist-util-modify-children');
-var information = require('./data/emoticon.json');
+var raw = require('emoticon');
 
 /* Expose. */
 module.exports = modifier(mergeEmoticons);
@@ -24,9 +24,11 @@ var EMOTICON_NODE = 'EmoticonNode';
 var MAX_EMOTICON_LENGTH = 5;
 
 /* Unpack. */
-var emoticons = information.emoticons;
-var start = new RegExp(information.start.join('|'));
-var end = information.end;
+var emoticons = [];
+var start = [];
+var end = [];
+
+unpack();
 
 /* Merge emoticons into an `EmoticonNode`. */
 function mergeEmoticons(child, index, parent) {
@@ -39,7 +41,7 @@ function mergeEmoticons(child, index, parent) {
 
   /* Check if `child`s first character could be used
    * to start an emoticon. */
-  if (start.test(toString(child).charAt(0))) {
+  if (start.indexOf(toString(child).charAt(0)) !== -1) {
     siblings = parent.children;
     siblingIndex = index;
     node = child;
@@ -79,6 +81,38 @@ function mergeEmoticons(child, index, parent) {
       }
 
       node = siblings[++siblingIndex];
+    }
+  }
+}
+
+function unpack() {
+  var length = raw.length;
+  var index = -1;
+  var subset;
+  var offset;
+  var count;
+  var subvalue;
+  var char;
+
+  while (++index < length) {
+    subset = raw[index].emoticons;
+    count = subset.length;
+    offset = -1;
+
+    while (++offset < count) {
+      subvalue = subset[offset];
+
+      emoticons.push(subvalue);
+
+      char = subvalue.charAt(0);
+      if (start.indexOf(char) === -1) {
+        start.push(char);
+      }
+
+      char = subvalue.charAt(subvalue.length - 1);
+      if (end.indexOf(char) === -1) {
+        end.push(char);
+      }
     }
   }
 }
