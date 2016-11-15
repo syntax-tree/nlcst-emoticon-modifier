@@ -3,11 +3,13 @@
 /* Dependencies. */
 var fs = require('fs');
 var unique = require('array-uniq');
-var emoticons = require('emoticon').emoticon;
+var emoticons = require('emoticon');
 
 var data = {};
 
-data.emoticons = Object.keys(emoticons);
+data.emoticons = [].concat.apply([], emoticons.map(function (emoticon) {
+  return emoticon.emoticons;
+})).sort();
 
 data.start = unique(data.emoticons.map(function (emoticon) {
   return emoticon.charAt(0);

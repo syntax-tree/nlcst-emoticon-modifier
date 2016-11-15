@@ -54,18 +54,21 @@ describe('nlcst-emoticon-modifier()', function () {
  * Check all emoticons.
  */
 
-Object.keys(emoticons.emoticon).forEach(function (value) {
-  describe(value, function () {
-    it(
-      'should classify `' + value + '` as an `EmoticonNode`',
-      function () {
-        var node = process('Who doesn’t like ' + value + '?', position);
-        var emoticon = node.children[0].children[0].children[6];
+emoticons.forEach(function (emoticon) {
+  emoticon.emoticons.forEach(function (value) {
+    describe(value, function () {
+      it(
+        'should classify `' + value + '` as an `EmoticonNode`',
+        function () {
+          var fixture = 'Who doesn’t like ' + value + '?';
+          var node = position.run(position.parse(fixture));
+          var emoticon = node.children[0].children[0].children[6];
 
-        assert.strictEqual(emoticon.type, 'EmoticonNode');
-        assert.strictEqual(emoticon.value, value);
-      }
-    );
+          assert.strictEqual(emoticon.type, 'EmoticonNode');
+          assert.strictEqual(emoticon.value, value);
+        }
+      );
+    });
   });
 });
 
