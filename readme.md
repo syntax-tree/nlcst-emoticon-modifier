@@ -1,24 +1,18 @@
-# nlcst-emoticon-modifier [![Build Status](https://img.shields.io/travis/wooorm/nlcst-emoticon-modifier.svg)](https://travis-ci.org/wooorm/nlcst-emoticon-modifier) [![Coverage Status](https://img.shields.io/codecov/c/github/wooorm/nlcst-emoticon-modifier.svg)](https://codecov.io/github/wooorm/nlcst-emoticon-modifier)
+# nlcst-emoticon-modifier [![Build Status][travis-badge]][travis] [![Coverage Status][codecov-badge]][codecov]
 
-Classify plain-text ASCII [**emoticon**](https://github.com/wooorm/emoticon)s
+Classify plain-text ASCII [**emoticon**][emoticon]s
 as `EmoticonNode`s.
 
-Implemented by [retext-emoji](https://github.com/wooorm/retext-emoji), but
-separated for use by standalone (non-[retext](https://github.com/wooorm/retext))
-processing.
+Implemented by [**retext-emoji**][retext-emoji], but separated for use by
+standalone (non-retext) processing.
 
 ## Installation
 
-[npm](https://docs.npmjs.com/cli/install):
+[npm][]:
 
 ```bash
 npm install nlcst-emoticon-modifier
 ```
-
-**nlcst-emoticon-modifier** is also available for [bower](http://bower.io/#install-packages),
-[component](https://github.com/componentjs/component), and
-[duo](http://duojs.org/#getting-started), and as an AMD, CommonJS, and globals
-module, [uncompressed](nlcst-emoticon-modifier.js) and [compressed](nlcst-emoticon-modifier.min.js).
 
 ## Usage
 
@@ -55,27 +49,36 @@ SentenceNode[10]
 
 ## API
 
-### emoticonModifier(sentence)
+### `emoticon(sentence)`
 
-Classify plain-text ASCII [**emoticon**](https://github.com/wooorm/emoticon)s
-as `EmoticonNode`s.
+Classify plain-text ASCII [**emoticon**][emoticon]s as `EmoticonNode`s.
 
-**Parameters**
+###### Parameters
 
-*   `sentence` ([`NLCSTSentenceNode`](https://github.com/wooorm/nlcst#sentencenode))
-    — Node with children.
-
-**Throws**
-
-*   `Error` — When not given a parent node.
-
-## Related
-
-*   [nlcst](https://github.com/wooorm/nlcst);
-*   [nlcst-emoji-modifier](https://github.com/wooorm/nlcst-emoji-modifier);
-*   [nlcst-affix-emoticon-modifier](https://github.com/wooorm/nlcst-affix-emoticon-modifier);
-*   [retext](https://github.com/wooorm/retext).
+*   `sentence` ([`NLCSTSentenceNode`][sentence]).
 
 ## License
 
-[MIT](LICENSE) © [Titus Wormer](http://wooorm.com)
+[MIT][license] © [Titus Wormer][author]
+
+<!-- Definitions -->
+
+[travis-badge]: https://img.shields.io/travis/wooorm/nlcst-emoticon-modifier.svg
+
+[travis]: https://travis-ci.org/wooorm/nlcst-emoticon-modifier
+
+[codecov-badge]: https://img.shields.io/codecov/c/github/wooorm/nlcst-emoticon-modifier.svg
+
+[codecov]: https://codecov.io/github/wooorm/nlcst-emoticon-modifier
+
+[npm]: https://docs.npmjs.com/cli/install
+
+[license]: LICENSE
+
+[author]: http://wooorm.com
+
+[retext-emoji]: https://github.com/wooorm/retext-emoji
+
+[sentence]: https://github.com/wooorm/nlcst#paragraphnode
+
+[emoticon]: https://github.com/wooorm/emoticon
