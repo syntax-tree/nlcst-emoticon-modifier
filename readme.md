@@ -63,13 +63,13 @@ Classify plain-text ASCII [**emoticon**][emoticon]s as `EmoticonNode`s.
 
 <!-- Definitions -->
 
-[travis-badge]: https://img.shields.io/travis/wooorm/nlcst-emoticon-modifier.svg
+[travis-badge]: https://img.shields.io/travis/syntax-tree/nlcst-emoticon-modifier.svg
 
-[travis]: https://travis-ci.org/wooorm/nlcst-emoticon-modifier
+[travis]: https://travis-ci.org/syntax-tree/nlcst-emoticon-modifier
 
-[codecov-badge]: https://img.shields.io/codecov/c/github/wooorm/nlcst-emoticon-modifier.svg
+[codecov-badge]: https://img.shields.io/codecov/c/github/syntax-tree/nlcst-emoticon-modifier.svg
 
-[codecov]: https://codecov.io/github/wooorm/nlcst-emoticon-modifier
+[codecov]: https://codecov.io/github/syntax-tree/nlcst-emoticon-modifier
 
 [npm]: https://docs.npmjs.com/cli/install
 
@@ -79,6 +79,6 @@ Classify plain-text ASCII [**emoticon**][emoticon]s as `EmoticonNode`s.
 
 [retext-emoji]: https://github.com/wooorm/retext-emoji
 
-[sentence]: https://github.com/wooorm/nlcst#paragraphnode
+[sentence]: https://github.com/syntax-tree/nlcst#paragrap
 
 [emoticon]: https://github.com/wooorm/emoticon
