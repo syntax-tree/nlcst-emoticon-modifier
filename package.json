@@ -7,7 +7,7 @@
     "nlcst",
     "emoticons"
   ],
-  "repository": "https://github.com/syntax-tree/nlcst-emoticon-modifier",
+  "repository": "syntax-tree/nlcst-emoticon-modifier",
   "bugs": "https://github.com/syntax-tree/nlcst-emoticon-modifier/issues",
   "author": "Titus Wormer <tituswormer@gmail.com> (http://wooorm.com)",
   "contributors": [
@@ -35,7 +35,7 @@
     "xo": "^0.18.0"
   },
   "scripts": {
-    "build-md": "remark . --quiet --frail --output",
+    "build-md": "remark . -qfo",
     "build-bundle": "browserify index.js --bare -s nlcstEmoticonModifier > nlcst-emoticon-modifier.js",
     "build-mangle": "esmangle < nlcst-emoticon-modifier.js > nlcst-emoticon-modifier.min.js",
     "build": "npm run build-md && npm run build-bundle && npm run build-mangle",
