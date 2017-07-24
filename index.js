@@ -1,14 +1,11 @@
 'use strict';
 
-/* Dependencies. */
 var toString = require('nlcst-to-string');
 var modifier = require('unist-util-modify-children');
 var raw = require('emoticon');
 
-/* Expose. */
 module.exports = modifier(mergeEmoticons);
 
-/* Node types. */
 var EMOTICON_NODE = 'EmoticonNode';
 
 /* Magic numbers.
