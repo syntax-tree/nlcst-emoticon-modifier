@@ -53,9 +53,11 @@ SentenceNode[10]
 
 Classify plain-text ASCII [**emoticon**][emoticon]s as `EmoticonNode`s.
 
-###### Parameters
+##### Parameters
 
-*   `sentence` ([`NLCSTSentenceNode`][sentence]).
+###### `sentence`
+
+Node to process ([`NLCSTSentenceNode`][sentence]).
 
 ## License
 
