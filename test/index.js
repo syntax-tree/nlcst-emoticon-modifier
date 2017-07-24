@@ -12,9 +12,9 @@ var hidden = require('is-hidden');
 var toString = require('nlcst-to-string');
 var modifier = require('..');
 
-var position = retext(english).use(plugin);
-var noPosition = retext(english).use(plugin).use(function (instance) {
-  instance.Parser.prototype.position = false;
+var position = retext().use(english).use(plugin);
+var noPosition = retext().use(english).use(plugin).use(function () {
+  this.Parser.prototype.position = false;
 });
 
 test('nlcst-emoticon-modifier()', function (t) {
@@ -47,7 +47,7 @@ test('emoticons', function (t) {
   emoticons.forEach(function (emoticon) {
     emoticon.emoticons.forEach(function (value) {
       var fixture = 'Who doesn’t like ' + value + '?';
-      var node = position.run(position.parse(fixture));
+      var node = position.runSync(position.parse(fixture));
       var emoticon = node.children[0].children[0].children[6];
 
       t.doesNotThrow(
@@ -64,8 +64,8 @@ test('emoticons', function (t) {
 });
 
 /* Add modifier to processor. */
-function plugin(processor) {
-  processor.Parser.prototype.use('tokenizeSentence', modifier);
+function plugin() {
+  this.Parser.prototype.use('tokenizeSentence', modifier);
 }
 
 /* Clone `object` but omit positional information. */
