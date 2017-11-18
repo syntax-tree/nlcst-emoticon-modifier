@@ -59,6 +59,14 @@ Classify plain-text ASCII [**emoticon**][emoticon]s as `EmoticonNode`s.
 
 Node to process ([`NLCSTSentenceNode`][sentence]).
 
+## Contribute
+
+See [`contribute.md` in `syntax-tree/nlcst`][contribute] for ways to get
+started.
+
+This organisation has a [Code of Conduct][coc].  By interacting with this
+repository, organisation, or community you agree to abide by its terms.
+
 ## License
 
 [MIT][license] © [Titus Wormer][author]
@@ -84,3 +92,7 @@ Node to process ([`NLCSTSentenceNode`][sentence]).
 [sentence]: https://github.com/syntax-tree/nlcst#paragrap
 
 [emoticon]: https://github.com/wooorm/emoticon
+
+[contribute]: https://github.com/syntax-tree/nlcst/blob/master/contributing.md
+
+[coc]: https://github.com/syntax-tree/nlcst/blob/master/code-of-conduct.md
