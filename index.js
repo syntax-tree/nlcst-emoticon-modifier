@@ -1,12 +1,12 @@
-'use strict';
+'use strict'
 
-var toString = require('nlcst-to-string');
-var modifier = require('unist-util-modify-children');
-var raw = require('emoticon');
+var toString = require('nlcst-to-string')
+var modifier = require('unist-util-modify-children')
+var raw = require('emoticon')
 
-module.exports = modifier(mergeEmoticons);
+module.exports = modifier(mergeEmoticons)
 
-var EMOTICON_NODE = 'EmoticonNode';
+var EMOTICON_NODE = 'EmoticonNode'
 
 /* Magic numbers.
  *
@@ -18,40 +18,40 @@ var EMOTICON_NODE = 'EmoticonNode';
  * (a tear), `Punctuation` (another tear), `Punctuation`
  * (a nose), and `Punctuation` (a frowning mouth), we can
  * safely break when the modifier has walked 5 characters. */
-var MAX_EMOTICON_LENGTH = 5;
+var MAX_EMOTICON_LENGTH = 5
 
 /* Unpack. */
-var emoticons = [];
-var start = [];
-var end = [];
+var emoticons = []
+var start = []
+var end = []
 
-unpack();
+unpack()
 
 /* Merge emoticons into an `EmoticonNode`. */
 function mergeEmoticons(child, index, parent) {
-  var siblings;
-  var value;
-  var siblingIndex;
-  var node;
-  var emoticon;
-  var subvalue;
+  var siblings
+  var value
+  var siblingIndex
+  var node
+  var emoticon
+  var subvalue
 
   /* Check if `child`s first character could be used
    * to start an emoticon. */
   if (start.indexOf(toString(child).charAt(0)) !== -1) {
-    siblings = parent.children;
-    siblingIndex = index;
-    node = child;
-    value = '';
+    siblings = parent.children
+    siblingIndex = index
+    node = child
+    value = ''
 
     while (node) {
       if (value.length >= MAX_EMOTICON_LENGTH) {
-        return;
+        return
       }
 
-      subvalue = toString(node);
+      subvalue = toString(node)
 
-      value += subvalue;
+      value += subvalue
 
       /* The second test, if the last character of
        * the current node is superfluous but
@@ -61,54 +61,54 @@ function mergeEmoticons(child, index, parent) {
         end.indexOf(subvalue.charAt(subvalue.length - 1)) !== -1 &&
         emoticons.indexOf(value) !== -1
       ) {
-        emoticon = {type: EMOTICON_NODE, value: value};
+        emoticon = {type: EMOTICON_NODE, value: value}
 
         if (child.position && node.position) {
           emoticon.position = {
             start: child.position.start,
             end: node.position.end
-          };
+          }
         }
 
-        siblings.splice(index, siblingIndex - index + 1, emoticon);
+        siblings.splice(index, siblingIndex - index + 1, emoticon)
 
         /* Some emoticons, like `:-`, can be followed by
          * more characters to form other emoticons. */
-        return index - 1;
+        return index - 1
       }
 
-      node = siblings[++siblingIndex];
+      node = siblings[++siblingIndex]
     }
   }
 }
 
 function unpack() {
-  var length = raw.length;
-  var index = -1;
-  var subset;
-  var offset;
-  var count;
-  var subvalue;
-  var char;
+  var length = raw.length
+  var index = -1
+  var subset
+  var offset
+  var count
+  var subvalue
+  var char
 
   while (++index < length) {
-    subset = raw[index].emoticons;
-    count = subset.length;
-    offset = -1;
+    subset = raw[index].emoticons
+    count = subset.length
+    offset = -1
 
     while (++offset < count) {
-      subvalue = subset[offset];
+      subvalue = subset[offset]
 
-      emoticons.push(subvalue);
+      emoticons.push(subvalue)
 
-      char = subvalue.charAt(0);
+      char = subvalue.charAt(0)
       if (start.indexOf(char) === -1) {
-        start.push(char);
+        start.push(char)
       }
 
-      char = subvalue.charAt(subvalue.length - 1);
+      char = subvalue.charAt(subvalue.length - 1)
       if (end.indexOf(char) === -1) {
-        end.push(char);
+        end.push(char)
       }
     }
   }

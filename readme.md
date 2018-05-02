@@ -17,14 +17,15 @@ npm install nlcst-emoticon-modifier
 ## Usage
 
 ```javascript
-var modifier = require('nlcst-emoticon-modifier');
-var inspect = require('unist-util-inspect');
-var english = require('parse-english');
-var sentence = english().parse('This makes me feel :).').children[0].children[0];
+var modifier = require('nlcst-emoticon-modifier')
+var inspect = require('unist-util-inspect')
+var english = require('parse-english')
 
-modifier(sentence);
+var sentence = english().parse('This makes me feel :).').children[0].children[0]
 
-console.log(inspect(sentence));
+modifier(sentence)
+
+console.log(inspect(sentence))
 ```
 
 Yields:
