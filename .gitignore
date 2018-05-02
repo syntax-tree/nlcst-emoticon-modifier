@@ -5,3 +5,4 @@ coverage/
 node_modules/
 nlcst-emoticon-modifier.js
 nlcst-emoticon-modifier.min.js
+yarn.lock
