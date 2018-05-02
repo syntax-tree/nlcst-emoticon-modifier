@@ -5,21 +5,13 @@ node_js:
 after_script: bash <(curl -s https://codecov.io/bash)
 sudo: false
 deploy:
-  - provider: npm
-    skip_cleanup: true
-    email: tituswormer@gmail.com
-    api_key:
-      secure: DXH+0jJsbxpj66ehrc1YWRjKfj1adNoQGpzT8jmq6vv61HAaIbGe2Uk4iQw2KAw5OWfvjbdHzLhkWloZIJqyQ7Y5SjHZwReRnhNyj2h7/huWa8cnhYbU8B+WAmpbvcl8aWZPvq1ls6CZwE+33AUSGZxMEGauxooRNSgNq9jIx88=
-    on:
-      tags: true
-      node: '9.0'
-  - provider: releases
-    skip_cleanup: true
-    api_key:
-      secure: Z3ndWZ8hPYQhKBkHqWVmt7i/KrZ9KjGoD9KxMJNyEfXgXkaTOsFtg8iCsHoA4GSRJPw1M/EjklDNOSEPkF9rhAyilX6ThqMO764IEr4i6zXyVd//UyCsw5Qq/wOCftZGwbDyNP2I3cD9mesQRHDp1dpZTy4Hy2Bp/3PajYsbP3g=
-    file:
-      - "nlcst-emoticon-modifier.js"
-      - "nlcst-emoticon-modifier.min.js"
-    on:
-      tags: true
-      node: '9.0'
+  provider: releases
+  skip_cleanup: true
+  api_key:
+    secure: Z3ndWZ8hPYQhKBkHqWVmt7i/KrZ9KjGoD9KxMJNyEfXgXkaTOsFtg8iCsHoA4GSRJPw1M/EjklDNOSEPkF9rhAyilX6ThqMO764IEr4i6zXyVd//UyCsw5Qq/wOCftZGwbDyNP2I3cD9mesQRHDp1dpZTy4Hy2Bp/3PajYsbP3g=
+  file:
+    - "nlcst-emoticon-modifier.js"
+    - "nlcst-emoticon-modifier.min.js"
+  on:
+    tags: true
+    node: '9.0'
