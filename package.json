@@ -23,7 +23,6 @@
   },
   "devDependencies": {
     "browserify": "^16.0.0",
-    "esmangle": "^1.0.0",
     "is-hidden": "^1.1.0",
     "negate": "^1.0.0",
     "nyc": "^14.0.0",
@@ -33,13 +32,14 @@
     "retext-english": "^3.0.0",
     "retext-stringify": "^2.0.0",
     "tape": "^4.0.0",
+    "tinyify": "^2.5.0",
     "unified": "^7.0.0",
     "xo": "^0.24.0"
   },
   "scripts": {
     "format": "remark . -qfo && prettier --write \"**/*.js\" && xo --fix",
-    "build-bundle": "browserify index.js --bare -s nlcstEmoticonModifier > nlcst-emoticon-modifier.js",
-    "build-mangle": "esmangle < nlcst-emoticon-modifier.js > nlcst-emoticon-modifier.min.js",
+    "build-bundle": "browserify . -s nlcstEmoticonModifier -o nlcst-emoticon-modifier.js",
+    "build-mangle": "browserify . -s nlcstEmoticonModifier -p tinyify -o nlcst-emoticon-modifier.min.js",
     "build": "npm run build-bundle && npm run build-mangle",
     "test-api": "node test",
     "test-coverage": "nyc --reporter lcov tape test/index.js",
