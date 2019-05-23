@@ -8,26 +8,25 @@ module.exports = modifier(mergeEmoticons)
 
 var EMOTICON_NODE = 'EmoticonNode'
 
-/* Magic numbers.
- *
- * Emoticons are treated by a parser as multiple nodes.
- * Because this modifier walks forwards, when a non-
- * emoticon matches it would normaly walk to the end
- * (the last node). However, because the longest emoticon
- * is tokenized as `Punctuation` (eyes), `Punctuation`
- * (a tear), `Punctuation` (another tear), `Punctuation`
- * (a nose), and `Punctuation` (a frowning mouth), we can
- * safely break when the modifier has walked 5 characters. */
+// Magic numbers.
+//
+// Emoticons are treated by a parser as multiple nodes.
+// Because this modifier walks forwards, when a non-emoticon matches it would
+// normaly walk to the end (the last node).
+// However, because the longest emoticon is tokenized as `Punctuation` (eyes),
+// `Punctuation` (a tear), `Punctuation` (another tear), `Punctuation` (a nose),
+// and `Punctuation` (a frowning mouth), we can safely break when the modifier
+// has walked 5 characters.
 var MAX_EMOTICON_LENGTH = 5
 
-/* Unpack. */
+// Unpack.
 var emoticons = []
 var start = []
 var end = []
 
 unpack()
 
-/* Merge emoticons into an `EmoticonNode`. */
+// Merge emoticons into an `EmoticonNode`.
 function mergeEmoticons(child, index, parent) {
   var siblings
   var value
@@ -36,8 +35,7 @@ function mergeEmoticons(child, index, parent) {
   var emoticon
   var subvalue
 
-  /* Check if `child`s first character could be used
-   * to start an emoticon. */
+  // Check if `child`s first character could be used to start an emoticon.
   if (start.indexOf(toString(child).charAt(0)) !== -1) {
     siblings = parent.children
     siblingIndex = index
@@ -53,9 +51,8 @@ function mergeEmoticons(child, index, parent) {
 
       value += subvalue
 
-      /* The second test, if the last character of
-       * the current node is superfluous but
-       * improves performance by 30%. */
+      // The second test, if the last character of the current node is
+      // superfluous but improves performance by 30%.
       if (
         node.type !== EMOTICON_NODE &&
         end.indexOf(subvalue.charAt(subvalue.length - 1)) !== -1 &&
@@ -72,8 +69,8 @@ function mergeEmoticons(child, index, parent) {
 
         siblings.splice(index, siblingIndex - index + 1, emoticon)
 
-        /* Some emoticons, like `:-`, can be followed by
-         * more characters to form other emoticons. */
+        // Some emoticons, like `:-`, can be followed by more characters to form
+        // other emoticons.
         return index - 1
       }
 
