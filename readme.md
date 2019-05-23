@@ -8,23 +8,22 @@
 [![Backers][backers-badge]][collective]
 [![Chat][chat-badge]][chat]
 
-Classify plain-text ASCII [**emoticon**][emoticon]s
-as `EmoticonNode`s.
+[**nlcst**][nlcst] utility to classify plain-text ASCII [emoticon][]s as
+`EmoticonNode`s.
 
-Implemented by [**retext-emoji**][retext-emoji], but separated for use by
-standalone (non-retext) processing.
+> **Note**: You probably want to use [retext-emoji][].
 
-## Installation
+## Install
 
 [npm][]:
 
-```bash
+```sh
 npm install nlcst-emoticon-modifier
 ```
 
 ## Usage
 
-```javascript
+```js
 var modifier = require('nlcst-emoticon-modifier')
 var inspect = require('unist-util-inspect')
 var english = require('parse-english')
@@ -60,21 +59,23 @@ SentenceNode[10]
 
 ### `emoticon(sentence)`
 
-Classify plain-text ASCII [**emoticon**][emoticon]s as `EmoticonNode`s.
+Classify plain-text ASCII [emoticon][]s as `EmoticonNode`s.
 
 ##### Parameters
 
 ###### `sentence`
 
-Node to process ([`NLCSTSentenceNode`][sentence]).
+Node to process ([`Sentence`][sentence]).
 
 ## Contribute
 
-See [`contributing.md` in `syntax-tree/nlcst`][contributing] for ways to get
+See [`contributing.md` in `syntax-tree/.github`][contributing] for ways to get
 started.
+See [`support.md`][support] for ways to get help.
 
-This organisation has a [Code of Conduct][coc].  By interacting with this
-repository, organisation, or community you agree to abide by its terms.
+This project has a [Code of Conduct][coc].
+By interacting with this repository, organisation, or community you agree to
+abide by its terms.
 
 ## License
 
@@ -114,12 +115,16 @@ repository, organisation, or community you agree to abide by its terms.
 
 [author]: https://wooorm.com
 
-[retext-emoji]: https://github.com/wooorm/retext-emoji
+[contributing]: https://github.com/syntax-tree/.github/blob/master/contributing.md
 
-[sentence]: https://github.com/syntax-tree/nlcst#paragrap
+[support]: https://github.com/syntax-tree/.github/blob/master/support.md
+
+[coc]: https://github.com/syntax-tree/.github/blob/master/code-of-conduct.md
+
+[retext-emoji]: https://github.com/retextjs/retext-emoji
+
+[nlcst]: https://github.com/syntax-tree/nlcst
+
+[sentence]: https://github.com/syntax-tree/nlcst#sentence
 
 [emoticon]: https://github.com/wooorm/emoticon
-
-[contributing]: https://github.com/syntax-tree/nlcst/blob/master/contributing.md
-
-[coc]: https://github.com/syntax-tree/nlcst/blob/master/code-of-conduct.md
