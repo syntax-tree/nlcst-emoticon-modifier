@@ -6,7 +6,7 @@ var raw = require('emoticon')
 
 module.exports = modifier(mergeEmoticons)
 
-var EMOTICON_NODE = 'EmoticonNode'
+var emoticonNode = 'EmoticonNode'
 
 // Magic numbers.
 //
@@ -17,7 +17,7 @@ var EMOTICON_NODE = 'EmoticonNode'
 // `Punctuation` (a tear), `Punctuation` (another tear), `Punctuation` (a nose),
 // and `Punctuation` (a frowning mouth), we can safely break when the modifier
 // has walked 5 characters.
-var MAX_EMOTICON_LENGTH = 5
+var maxEmoticonLength = 5
 
 // Unpack.
 var emoticons = []
@@ -43,7 +43,7 @@ function mergeEmoticons(child, index, parent) {
     value = ''
 
     while (node) {
-      if (value.length >= MAX_EMOTICON_LENGTH) {
+      if (value.length >= maxEmoticonLength) {
         return
       }
 
@@ -54,11 +54,11 @@ function mergeEmoticons(child, index, parent) {
       // The second test, if the last character of the current node is
       // superfluous but improves performance by 30%.
       if (
-        node.type !== EMOTICON_NODE &&
+        node.type !== emoticonNode &&
         end.indexOf(subvalue.charAt(subvalue.length - 1)) !== -1 &&
         emoticons.indexOf(value) !== -1
       ) {
-        emoticon = {type: EMOTICON_NODE, value: value}
+        emoticon = {type: emoticonNode, value: value}
 
         if (child.position && node.position) {
           emoticon.position = {
