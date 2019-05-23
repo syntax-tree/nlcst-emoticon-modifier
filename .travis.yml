@@ -1,16 +1,16 @@
 language: node_js
 node_js:
-- lts/boron
-- node
+  - lts/dubnium
+  - node
 after_script: bash <(curl -s https://codecov.io/bash)
 sudo: false
 deploy:
   provider: releases
   skip_cleanup: true
   api_key:
-    secure: Z3ndWZ8hPYQhKBkHqWVmt7i/KrZ9KjGoD9KxMJNyEfXgXkaTOsFtg8iCsHoA4GSRJPw1M/EjklDNOSEPkF9rhAyilX6ThqMO764IEr4i6zXyVd//UyCsw5Qq/wOCftZGwbDyNP2I3cD9mesQRHDp1dpZTy4Hy2Bp/3PajYsbP3g=
+    secure: PlNCaKmWRS+R14pjAUPt+yKqsxMyjjrs0JYoNHgRIvSWtvXsvpLV9JFHILPrUTNk2gJzNeNEl0bRRRk5C1UfacHQEQ129LJi8JudmDs7mphKe0edh/PSNG1MjWdyZeeF4NTywBPElTdUb4rR2mrOuRgfL4LvPM5vnrShUXWM6oM=
   file:
-    - "nlcst-emoticon-modifier.js"
-    - "nlcst-emoticon-modifier.min.js"
+    - 'nlcst-emoticon-modifier.js'
+    - 'nlcst-emoticon-modifier.min.js'
   on:
     tags: true
