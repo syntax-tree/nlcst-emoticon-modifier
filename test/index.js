@@ -4,7 +4,8 @@ var fs = require('fs')
 var path = require('path')
 var assert = require('assert')
 var test = require('tape')
-var retext = require('retext')
+var unified = require('unified')
+var stringify = require('retext-stringify')
 var english = require('retext-english')
 var emoticons = require('emoticon')
 var negate = require('negate')
@@ -12,12 +13,14 @@ var hidden = require('is-hidden')
 var toString = require('nlcst-to-string')
 var modifier = require('..')
 
-var position = retext()
+var position = unified()
   .use(english)
   .use(plugin)
-var noPosition = retext()
+  .use(stringify)
+var noPosition = unified()
   .use(english)
   .use(plugin)
+  .use(stringify)
   .use(function() {
     this.Parser.prototype.position = false
   })
@@ -33,8 +36,7 @@ test('nlcst-emoticon-modifier()', function(t) {
     'should throw when not given a parent'
   )
 
-  fs
-    .readdirSync(root)
+  fs.readdirSync(root)
     .filter(negate(hidden))
     .forEach(function(filename) {
       var tree = JSON.parse(fs.readFileSync(path.join(root, filename)))
