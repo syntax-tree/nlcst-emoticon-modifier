@@ -66,6 +66,13 @@ Classify ASCII [emoticon][]s as `EmoticonNode`s.
 
 Node to process ([`Sentence`][sentence]).
 
+## Related
+
+*   [`nlcst-affix-emoticon-modifier`](https://github.com/syntax-tree/nlcst-affix-emoticon-modifier)
+    — Merge affix emoticons into the previous sentence in nlcst
+*   [`nlcst-emoji-modifier`](https://github.com/syntax-tree/nlcst-emoji-modifier)
+    — Support emoji
+
 ## Contribute
 
 See [`contributing.md` in `syntax-tree/.github`][contributing] for ways to get
