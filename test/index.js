@@ -13,23 +13,20 @@ var hidden = require('is-hidden')
 var toString = require('nlcst-to-string')
 var modifier = require('..')
 
-var position = unified()
-  .use(english)
-  .use(plugin)
-  .use(stringify)
+var position = unified().use(english).use(plugin).use(stringify)
 var noPosition = unified()
   .use(english)
   .use(plugin)
   .use(stringify)
-  .use(function() {
+  .use(function () {
     this.Parser.prototype.position = false
   })
 
-test('nlcst-emoticon-modifier()', function(t) {
+test('nlcst-emoticon-modifier()', function (t) {
   var root = path.join(__dirname, 'fixtures')
 
   t.throws(
-    function() {
+    function () {
       modifier({})
     },
     /Missing children in `parent`/,
@@ -38,13 +35,13 @@ test('nlcst-emoticon-modifier()', function(t) {
 
   fs.readdirSync(root)
     .filter(negate(hidden))
-    .forEach(function(filename) {
+    .forEach(function (filename) {
       var tree = JSON.parse(fs.readFileSync(path.join(root, filename)))
       var fixture = toString(tree)
       var name = path.basename(filename, path.extname(filename))
 
-      t.deepEqual(position.parse(fixture), tree, name)
-      t.deepEqual(
+      t.deepLooseEqual(position.parse(fixture), tree, name)
+      t.deepLooseEqual(
         noPosition.parse(fixture),
         clean(tree),
         name + ' (positionless)'
@@ -54,14 +51,14 @@ test('nlcst-emoticon-modifier()', function(t) {
   t.end()
 })
 
-test('emoticons', function(t) {
-  emoticons.forEach(function(emoticon) {
-    emoticon.emoticons.forEach(function(value) {
+test('emoticons', function (t) {
+  emoticons.forEach(function (emoticon) {
+    emoticon.emoticons.forEach(function (value) {
       var fixture = 'Who doesn’t like ' + value + '?'
       var node = position.runSync(position.parse(fixture))
       var emoticon = node.children[0].children[0].children[6]
 
-      t.doesNotThrow(function() {
+      t.doesNotThrow(function () {
         assert.strictEqual(emoticon.type, 'EmoticonNode')
         assert.strictEqual(emoticon.value, value)
       }, value)
