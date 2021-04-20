@@ -14,6 +14,9 @@
 
 ## Install
 
+This package is [ESM only](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c):
+Node 12+ is needed to use it and it must be `import`ed instead of `require`d.
+
 [npm][]:
 
 ```sh
@@ -23,13 +26,13 @@ npm install nlcst-emoticon-modifier
 ## Use
 
 ```js
-var modifier = require('nlcst-emoticon-modifier')
-var inspect = require('unist-util-inspect')
-var english = require('parse-english')
+import {emoticonModifier} from 'nlcst-emoticon-modifier'
+import {inspect} from 'unist-util-inspect'
+import {ParseEnglish} from 'parse-english'
 
-var sentence = english().parse('This makes me feel :).').children[0].children[0]
+var sentence = new ParseEnglish().parse('This makes me feel :).').children[0].children[0]
 
-modifier(sentence)
+emoticonModifier(sentence)
 
 console.log(inspect(sentence))
 ```
@@ -56,7 +59,10 @@ SentenceNode[10]
 
 ## API
 
-### `emoticon(sentence)`
+This package exports the following identifiers: `emoticonModifier`.
+There is no default export.
+
+### `emoticonModifier(sentence)`
 
 Classify ASCII [emoticon][]s as `EmoticonNode`s.
 

@@ -1,15 +1,14 @@
-'use strict'
-
-var fs = require('fs')
-var path = require('path')
-var test = require('tape')
-var unified = require('unified')
-var stringify = require('retext-stringify')
-var english = require('retext-english')
-var emoticons = require('emoticon')
-var hidden = require('is-hidden')
-var toString = require('nlcst-to-string')
-var modifier = require('..')
+import fs from 'fs'
+import path from 'path'
+import test from 'tape'
+import unified from 'unified'
+import stringify from 'retext-stringify'
+import english from 'retext-english'
+import {emoticon} from 'emoticon'
+import {isHidden} from 'is-hidden'
+import {toString} from 'nlcst-to-string'
+import {removePosition} from 'unist-util-remove-position'
+import {emoticonModifier} from '../index.js'
 
 var position = unified().use(english).use(plugin).use(stringify)
 var noPosition = unified()
@@ -21,11 +20,11 @@ var noPosition = unified()
   })
 
 test('nlcst-emoticon-modifier()', function (t) {
-  var root = path.join(__dirname, 'fixtures')
+  var root = path.join('test', 'fixtures')
 
   t.throws(
     function () {
-      modifier({})
+      emoticonModifier({})
     },
     /Missing children in `parent`/,
     'should throw when not given a parent'
@@ -37,7 +36,7 @@ test('nlcst-emoticon-modifier()', function (t) {
   var name
 
   while (++index < files.length) {
-    if (hidden(files[index])) continue
+    if (isHidden(files[index])) continue
 
     tree = JSON.parse(fs.readFileSync(path.join(root, files[index])))
     name = path.basename(files[index], path.extname(files[index]))
@@ -45,7 +44,7 @@ test('nlcst-emoticon-modifier()', function (t) {
     t.deepLooseEqual(position.parse(toString(tree)), tree, name)
     t.deepLooseEqual(
       noPosition.parse(toString(tree)),
-      clean(tree),
+      removePosition(tree, true),
       name + ' (positionless)'
     )
   }
@@ -56,22 +55,22 @@ test('nlcst-emoticon-modifier()', function (t) {
 test('emoticons', function (t) {
   var index = -1
   var offset = -1
-  var emoticon
+  var list
   var fixture
   var tree
   var node
 
-  while (++index < emoticons.length) {
-    emoticon = emoticons[index].emoticons
+  while (++index < emoticon.length) {
+    list = emoticon[index].emoticons
     offset = -1
 
-    while (++offset < emoticon.length) {
-      fixture = 'Who doesn’t like ' + emoticon[offset] + '?'
+    while (++offset < list.length) {
+      fixture = 'Who doesn’t like ' + list[offset] + '?'
       tree = position.runSync(position.parse(fixture))
       node = tree.children[0].children[0].children[6]
 
-      t.strictEqual(node.type, 'EmoticonNode', emoticon[offset] + ' type')
-      t.strictEqual(node.value, emoticon[offset], emoticon[offset] + ' value')
+      t.strictEqual(node.type, 'EmoticonNode', list[offset] + ' type')
+      t.strictEqual(node.value, list[offset], list[offset] + ' value')
     }
   }
 
@@ -80,24 +79,5 @@ test('emoticons', function (t) {
 
 /* Add modifier to processor. */
 function plugin() {
-  this.Parser.prototype.use('tokenizeSentence', modifier)
-}
-
-/* Clone `object` but omit positional information. */
-function clean(object) {
-  var clone = 'length' in object ? [] : {}
-  var key
-  var value
-
-  for (key in object) {
-    value = object[key]
-
-    if (key === 'position') {
-      continue
-    }
-
-    clone[key] = typeof object[key] === 'object' ? clean(value) : value
-  }
-
-  return clone
+  this.Parser.prototype.use('tokenizeSentence', emoticonModifier)
 }

@@ -1,10 +1,8 @@
-'use strict'
+import {toString} from 'nlcst-to-string'
+import {modifyChildren} from 'unist-util-modify-children'
+import {emoticon} from 'emoticon'
 
-var toString = require('nlcst-to-string')
-var modifier = require('unist-util-modify-children')
-var raw = require('emoticon')
-
-module.exports = modifier(mergeEmoticons)
+export const emoticonModifier = modifyChildren(mergeEmoticons)
 
 // Magic numbers.
 //
@@ -29,10 +27,10 @@ function mergeEmoticons(child, index, parent) {
   var value
   var siblingIndex
   var node
-  var emoticon
+  var emoticonNode
 
   // Check if `child`s first character could be used to start an emoticon.
-  if (start.indexOf(toString(child).charAt(0)) !== -1) {
+  if (start.includes(toString(child).charAt(0))) {
     value = ''
     siblingIndex = index
     node = child
@@ -48,19 +46,19 @@ function mergeEmoticons(child, index, parent) {
       // superfluous but improves performance by 30%.
       if (
         node.type !== 'EmoticonNode' &&
-        end.indexOf(value.charAt(value.length - 1)) !== -1 &&
-        emoticons.indexOf(value) !== -1
+        end.includes(value.charAt(value.length - 1)) &&
+        emoticons.includes(value)
       ) {
-        emoticon = {type: 'EmoticonNode', value: value}
+        emoticonNode = {type: 'EmoticonNode', value}
 
         if (child.position && node.position) {
-          emoticon.position = {
+          emoticonNode.position = {
             start: child.position.start,
             end: node.position.end
           }
         }
 
-        parent.children.splice(index, siblingIndex - index + 1, emoticon)
+        parent.children.splice(index, siblingIndex - index + 1, emoticonNode)
 
         // Some emoticons, like `:-`, can be followed by more characters to form
         // other emoticons.
@@ -78,18 +76,18 @@ function unpack() {
   var offset
   var char
 
-  while (++index < raw.length) {
-    subset = raw[index].emoticons
+  while (++index < emoticon.length) {
+    subset = emoticon[index].emoticons
     offset = -1
 
     while (++offset < subset.length) {
       emoticons.push(subset[offset])
 
       char = subset[offset].charAt(0)
-      if (start.indexOf(char) === -1) start.push(char)
+      if (!start.includes(char)) start.push(char)
 
       char = subset[offset].charAt(subset[offset].length - 1)
-      if (end.indexOf(char) === -1) end.push(char)
+      if (!end.includes(char)) end.push(char)
     }
   }
 }

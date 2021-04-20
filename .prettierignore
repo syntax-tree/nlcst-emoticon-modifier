@@ -1,5 +1,2 @@
 coverage/
-*.json
 *.md
-nlcst-emoticon-modifier.js
-nlcst-emoticon-modifier.min.js
