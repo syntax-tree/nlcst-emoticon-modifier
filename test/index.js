@@ -2,13 +2,11 @@
 
 var fs = require('fs')
 var path = require('path')
-var assert = require('assert')
 var test = require('tape')
 var unified = require('unified')
 var stringify = require('retext-stringify')
 var english = require('retext-english')
 var emoticons = require('emoticon')
-var negate = require('negate')
 var hidden = require('is-hidden')
 var toString = require('nlcst-to-string')
 var modifier = require('..')
@@ -33,37 +31,49 @@ test('nlcst-emoticon-modifier()', function (t) {
     'should throw when not given a parent'
   )
 
-  fs.readdirSync(root)
-    .filter(negate(hidden))
-    .forEach(function (filename) {
-      var tree = JSON.parse(fs.readFileSync(path.join(root, filename)))
-      var fixture = toString(tree)
-      var name = path.basename(filename, path.extname(filename))
+  var files = fs.readdirSync(root)
+  var index = -1
+  var tree
+  var name
 
-      t.deepLooseEqual(position.parse(fixture), tree, name)
-      t.deepLooseEqual(
-        noPosition.parse(fixture),
-        clean(tree),
-        name + ' (positionless)'
-      )
-    })
+  while (++index < files.length) {
+    if (hidden(files[index])) continue
+
+    tree = JSON.parse(fs.readFileSync(path.join(root, files[index])))
+    name = path.basename(files[index], path.extname(files[index]))
+
+    t.deepLooseEqual(position.parse(toString(tree)), tree, name)
+    t.deepLooseEqual(
+      noPosition.parse(toString(tree)),
+      clean(tree),
+      name + ' (positionless)'
+    )
+  }
 
   t.end()
 })
 
 test('emoticons', function (t) {
-  emoticons.forEach(function (emoticon) {
-    emoticon.emoticons.forEach(function (value) {
-      var fixture = 'Who doesn’t like ' + value + '?'
-      var node = position.runSync(position.parse(fixture))
-      var emoticon = node.children[0].children[0].children[6]
+  var index = -1
+  var offset = -1
+  var emoticon
+  var fixture
+  var tree
+  var node
 
-      t.doesNotThrow(function () {
-        assert.strictEqual(emoticon.type, 'EmoticonNode')
-        assert.strictEqual(emoticon.value, value)
-      }, value)
-    })
-  })
+  while (++index < emoticons.length) {
+    emoticon = emoticons[index].emoticons
+    offset = -1
+
+    while (++offset < emoticon.length) {
+      fixture = 'Who doesn’t like ' + emoticon[offset] + '?'
+      tree = position.runSync(position.parse(fixture))
+      node = tree.children[0].children[0].children[6]
+
+      t.strictEqual(node.type, 'EmoticonNode', emoticon[offset] + ' type')
+      t.strictEqual(node.value, emoticon[offset], emoticon[offset] + ' value')
+    }
+  }
 
   t.end()
 })
