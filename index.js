@@ -1,3 +1,8 @@
+/**
+ * @typedef {import('unist').Node} Node
+ * @typedef {import('unist').Parent} Parent
+ */
+
 import {toString} from 'nlcst-to-string'
 import {modifyChildren} from 'unist-util-modify-children'
 import {emoticon} from 'emoticon'
@@ -15,18 +20,31 @@ export const emoticonModifier = modifyChildren(mergeEmoticons)
 // has walked 5 characters.
 var maxEmoticonLength = 5
 
-// Unpack.
+/** @type {Array.<string>} */
 var emoticons = []
+/** @type {Array.<string>} */
 var start = []
+/** @type {Array.<string>} */
 var end = []
 
 unpack()
 
-// Merge emoticons into an `EmoticonNode`.
+/**
+ * Merge emoticons into an `EmoticonNode`.
+ *
+ * @param {Node} child
+ * @param {number} index
+ * @param {Parent} parent
+ *
+ */
 function mergeEmoticons(child, index, parent) {
+  /** @type {string} */
   var value
+  /** @type {number} */
   var siblingIndex
+  /** @type {Node} */
   var node
+  /** @type {Node} */
   var emoticonNode
 
   // Check if `child`s first character could be used to start an emoticon.
@@ -72,8 +90,11 @@ function mergeEmoticons(child, index, parent) {
 
 function unpack() {
   var index = -1
+  /** @type {Array.<string>} */
   var subset
+  /** @type {number} */
   var offset
+  /** @type {string} */
   var char
 
   while (++index < emoticon.length) {

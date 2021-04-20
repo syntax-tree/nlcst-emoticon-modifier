@@ -1,8 +1,14 @@
+/**
+ * @typedef {import('unist').Node} Node
+ */
+
 import fs from 'fs'
 import path from 'path'
 import test from 'tape'
 import unified from 'unified'
+// @ts-ignore remove when typed.
 import stringify from 'retext-stringify'
+// @ts-ignore remove when typed.
 import english from 'retext-english'
 import {emoticon} from 'emoticon'
 import {isHidden} from 'is-hidden'
@@ -16,6 +22,7 @@ var noPosition = unified()
   .use(plugin)
   .use(stringify)
   .use(function () {
+    // type-coverage:ignore-next-line
     this.Parser.prototype.position = false
   })
 
@@ -24,6 +31,7 @@ test('nlcst-emoticon-modifier()', function (t) {
 
   t.throws(
     function () {
+      // @ts-ignore runtime.
       emoticonModifier({})
     },
     /Missing children in `parent`/,
@@ -32,13 +40,15 @@ test('nlcst-emoticon-modifier()', function (t) {
 
   var files = fs.readdirSync(root)
   var index = -1
+  /** @type {Node} */
   var tree
+  /** @type {string} */
   var name
 
   while (++index < files.length) {
     if (isHidden(files[index])) continue
 
-    tree = JSON.parse(fs.readFileSync(path.join(root, files[index])))
+    tree = JSON.parse(String(fs.readFileSync(path.join(root, files[index]))))
     name = path.basename(files[index], path.extname(files[index]))
 
     t.deepLooseEqual(position.parse(toString(tree)), tree, name)
@@ -55,9 +65,11 @@ test('nlcst-emoticon-modifier()', function (t) {
 test('emoticons', function (t) {
   var index = -1
   var offset = -1
+  /** @type {Array.<string>} */
   var list
-  var fixture
+  /** @type {Node} */
   var tree
+  /** @type {Node} */
   var node
 
   while (++index < emoticon.length) {
@@ -65,8 +77,9 @@ test('emoticons', function (t) {
     offset = -1
 
     while (++offset < list.length) {
-      fixture = 'Who doesn’t like ' + list[offset] + '?'
-      tree = position.runSync(position.parse(fixture))
+      tree = position.runSync(
+        position.parse('Who doesn’t like ' + list[offset] + '?')
+      )
       node = tree.children[0].children[0].children[6]
 
       t.strictEqual(node.type, 'EmoticonNode', list[offset] + ' type')
@@ -79,5 +92,6 @@ test('emoticons', function (t) {
 
 /* Add modifier to processor. */
 function plugin() {
+  // type-coverage:ignore-next-line
   this.Parser.prototype.use('tokenizeSentence', emoticonModifier)
 }
