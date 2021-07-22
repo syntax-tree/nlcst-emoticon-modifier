@@ -6,23 +6,22 @@
 import fs from 'fs'
 import path from 'path'
 import test from 'tape'
-import unified from 'unified'
-// @ts-expect-error remove when typed.
-import stringify from 'retext-stringify'
-// @ts-expect-error remove when typed.
-import english from 'retext-english'
+import {unified} from 'unified'
+import retextStringify from 'retext-stringify'
+import retextEnglish from 'retext-english'
 import {emoticon} from 'emoticon'
 import {isHidden} from 'is-hidden'
 import {toString} from 'nlcst-to-string'
 import {removePosition} from 'unist-util-remove-position'
 import {emoticonModifier} from '../index.js'
 
-var position = unified().use(english).use(plugin).use(stringify)
+var position = unified().use(retextEnglish).use(plugin).use(retextStringify)
 var noPosition = unified()
-  .use(english)
+  .use(retextEnglish)
   .use(plugin)
-  .use(stringify)
+  .use(retextStringify)
   .use(function () {
+    // @ts-expect-error: fine.
     // type-coverage:ignore-next-line
     this.Parser.prototype.position = false
   })
@@ -92,8 +91,13 @@ test('emoticons', function (t) {
   t.end()
 })
 
-/* Add modifier to processor. */
+/**
+ * Add modifier to processor.
+ *
+ * @type {import('unified').Plugin<[]>}
+ */
 function plugin() {
+  // @ts-expect-error: fine.
   // type-coverage:ignore-next-line
   this.Parser.prototype.use('tokenizeSentence', emoticonModifier)
 }
