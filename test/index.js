@@ -7,9 +7,9 @@ import fs from 'fs'
 import path from 'path'
 import test from 'tape'
 import unified from 'unified'
-// @ts-ignore remove when typed.
+// @ts-expect-error remove when typed.
 import stringify from 'retext-stringify'
-// @ts-ignore remove when typed.
+// @ts-expect-error remove when typed.
 import english from 'retext-english'
 import {emoticon} from 'emoticon'
 import {isHidden} from 'is-hidden'
@@ -32,7 +32,7 @@ test('nlcst-emoticon-modifier()', function (t) {
 
   t.throws(
     function () {
-      // @ts-ignore runtime.
+      // @ts-expect-error runtime.
       emoticonModifier({})
     },
     /Missing children in `parent`/,
