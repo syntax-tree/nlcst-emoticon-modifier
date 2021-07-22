@@ -30,7 +30,7 @@ import {emoticonModifier} from 'nlcst-emoticon-modifier'
 import {inspect} from 'unist-util-inspect'
 import {ParseEnglish} from 'parse-english'
 
-var sentence = new ParseEnglish().parse('This makes me feel :).').children[0].children[0]
+const sentence = new ParseEnglish().parse('This makes me feel :).').children[0].children[0]
 
 emoticonModifier(sentence)
 

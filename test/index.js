@@ -3,8 +3,8 @@
  * @typedef {import('unist').Literal<string>} Literal
  */
 
-import fs from 'fs'
-import path from 'path'
+import fs from 'node:fs'
+import path from 'node:path'
 import test from 'tape'
 import {unified} from 'unified'
 import retextStringify from 'retext-stringify'
@@ -15,8 +15,8 @@ import {toString} from 'nlcst-to-string'
 import {removePosition} from 'unist-util-remove-position'
 import {emoticonModifier} from '../index.js'
 
-var position = unified().use(retextEnglish).use(plugin).use(retextStringify)
-var noPosition = unified()
+const position = unified().use(retextEnglish).use(plugin).use(retextStringify)
+const noPosition = unified()
   .use(retextEnglish)
   .use(plugin)
   .use(retextStringify)
@@ -26,11 +26,11 @@ var noPosition = unified()
     this.Parser.prototype.position = false
   })
 
-test('nlcst-emoticon-modifier()', function (t) {
-  var root = path.join('test', 'fixtures')
+test('nlcst-emoticon-modifier()', (t) => {
+  const root = path.join('test', 'fixtures')
 
   t.throws(
-    function () {
+    () => {
       // @ts-expect-error runtime.
       emoticonModifier({})
     },
@@ -38,12 +38,12 @@ test('nlcst-emoticon-modifier()', function (t) {
     'should throw when not given a parent'
   )
 
-  var files = fs.readdirSync(root)
-  var index = -1
+  const files = fs.readdirSync(root)
+  let index = -1
   /** @type {Node} */
-  var tree
+  let tree
   /** @type {string} */
-  var name
+  let name
 
   while (++index < files.length) {
     if (isHidden(files[index])) continue
@@ -62,15 +62,15 @@ test('nlcst-emoticon-modifier()', function (t) {
   t.end()
 })
 
-test('emoticons', function (t) {
-  var index = -1
-  var offset = -1
+test('emoticons', (t) => {
+  let index = -1
+  let offset = -1
   /** @type {Array.<string>} */
-  var list
+  let list
   /** @type {Node} */
-  var tree
+  let tree
   /** @type {Literal} */
-  var node
+  let node
 
   while (++index < emoticon.length) {
     list = emoticon[index].emoticons

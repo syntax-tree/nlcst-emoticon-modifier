@@ -19,14 +19,14 @@ export const emoticonModifier = modifyChildren(mergeEmoticons)
 // `Punctuation` (a tear), `Punctuation` (another tear), `Punctuation` (a nose),
 // and `Punctuation` (a frowning mouth), we can safely break when the modifier
 // has walked 5 characters.
-var maxEmoticonLength = 5
+const maxEmoticonLength = 5
 
 /** @type {Array.<string>} */
-var emoticons = []
+const emoticons = []
 /** @type {Array.<string>} */
-var start = []
+const start = []
 /** @type {Array.<string>} */
-var end = []
+const end = []
 
 unpack()
 
@@ -39,20 +39,11 @@ unpack()
  *
  */
 function mergeEmoticons(child, index, parent) {
-  /** @type {string} */
-  var value
-  /** @type {number} */
-  var siblingIndex
-  /** @type {Node} */
-  var node
-  /** @type {Literal} */
-  var emoticonNode
-
   // Check if `child`s first character could be used to start an emoticon.
   if (start.includes(toString(child).charAt(0))) {
-    value = ''
-    siblingIndex = index
-    node = child
+    let value = ''
+    let siblingIndex = index
+    let node = child
 
     while (node) {
       if (value.length >= maxEmoticonLength) {
@@ -68,7 +59,8 @@ function mergeEmoticons(child, index, parent) {
         end.includes(value.charAt(value.length - 1)) &&
         emoticons.includes(value)
       ) {
-        emoticonNode = {type: 'EmoticonNode', value}
+        /** @type {Literal} */
+        const emoticonNode = {type: 'EmoticonNode', value}
 
         if (child.position && node.position) {
           emoticonNode.position = {
@@ -90,22 +82,16 @@ function mergeEmoticons(child, index, parent) {
 }
 
 function unpack() {
-  var index = -1
-  /** @type {Array.<string>} */
-  var subset
-  /** @type {number} */
-  var offset
-  /** @type {string} */
-  var char
+  let index = -1
 
   while (++index < emoticon.length) {
-    subset = emoticon[index].emoticons
-    offset = -1
+    const subset = emoticon[index].emoticons
+    let offset = -1
 
     while (++offset < subset.length) {
       emoticons.push(subset[offset])
 
-      char = subset[offset].charAt(0)
+      let char = subset[offset].charAt(0)
       if (!start.includes(char)) start.push(char)
 
       char = subset[offset].charAt(subset[offset].length - 1)
