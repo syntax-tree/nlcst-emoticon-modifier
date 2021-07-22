@@ -1,5 +1,6 @@
 /**
  * @typedef {import('unist').Node} Node
+ * @typedef {import('unist').Literal<string>} Literal
  * @typedef {import('unist').Parent} Parent
  */
 
@@ -44,7 +45,7 @@ function mergeEmoticons(child, index, parent) {
   var siblingIndex
   /** @type {Node} */
   var node
-  /** @type {Node} */
+  /** @type {Literal} */
   var emoticonNode
 
   // Check if `child`s first character could be used to start an emoticon.

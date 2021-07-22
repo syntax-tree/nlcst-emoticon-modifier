@@ -1,5 +1,6 @@
 /**
  * @typedef {import('unist').Node} Node
+ * @typedef {import('unist').Literal<string>} Literal
  */
 
 import fs from 'fs'
@@ -69,7 +70,7 @@ test('emoticons', function (t) {
   var list
   /** @type {Node} */
   var tree
-  /** @type {Node} */
+  /** @type {Literal} */
   var node
 
   while (++index < emoticon.length) {
@@ -80,6 +81,7 @@ test('emoticons', function (t) {
       tree = position.runSync(
         position.parse('Who doesn’t like ' + list[offset] + '?')
       )
+      // @ts-expect-error: hush
       node = tree.children[0].children[0].children[6]
 
       t.strictEqual(node.type, 'EmoticonNode', list[offset] + ' type')
