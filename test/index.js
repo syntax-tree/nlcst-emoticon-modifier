@@ -1,6 +1,6 @@
 /**
- * @typedef {import('unist').Node} Node
- * @typedef {import('unist').Literal<string>} Literal
+ * @typedef {import('nlcst').Root} Root
+ * @typedef {import('../complex-types').Emoticon} Emoticon
  */
 
 import fs from 'node:fs'
@@ -40,16 +40,15 @@ test('nlcst-emoticon-modifier()', (t) => {
 
   const files = fs.readdirSync(root)
   let index = -1
-  /** @type {Node} */
-  let tree
-  /** @type {string} */
-  let name
 
   while (++index < files.length) {
     if (isHidden(files[index])) continue
 
-    tree = JSON.parse(String(fs.readFileSync(path.join(root, files[index]))))
-    name = path.basename(files[index], path.extname(files[index]))
+    /** @type {Root} */
+    const tree = JSON.parse(
+      String(fs.readFileSync(path.join(root, files[index])))
+    )
+    const name = path.basename(files[index], path.extname(files[index]))
 
     t.deepLooseEqual(position.parse(toString(tree)), tree, name)
     t.deepLooseEqual(
@@ -64,24 +63,20 @@ test('nlcst-emoticon-modifier()', (t) => {
 
 test('emoticons', (t) => {
   let index = -1
-  let offset = -1
-  /** @type {Array.<string>} */
-  let list
-  /** @type {Node} */
-  let tree
-  /** @type {Literal} */
-  let node
 
   while (++index < emoticon.length) {
-    list = emoticon[index].emoticons
-    offset = -1
+    const list = emoticon[index].emoticons
+    let offset = -1
 
     while (++offset < list.length) {
-      tree = position.runSync(
-        position.parse('Who doesn’t like ' + list[offset] + '?')
+      const tree = /** @type {Root} */ (
+        position.runSync(
+          position.parse('Who doesn’t like ' + list[offset] + '?')
+        )
       )
-      // @ts-expect-error: hush
-      node = tree.children[0].children[0].children[6]
+      /** @type {Emoticon} */
+      // @ts-expect-error: fine.
+      const node = tree.children[0].children[0].children[6]
 
       t.strictEqual(node.type, 'EmoticonNode', list[offset] + ' type')
       t.strictEqual(node.value, list[offset], list[offset] + ' value')

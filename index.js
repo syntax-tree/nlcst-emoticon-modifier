@@ -1,14 +1,12 @@
 /**
- * @typedef {import('unist').Node} Node
- * @typedef {import('unist').Literal<string>} Literal
- * @typedef {import('unist').Parent} Parent
+ * @typedef {import('nlcst').Sentence} Sentence
+ * @typedef {import('nlcst').SentenceContent} SentenceContent
+ * @typedef {import('./complex-types').Emoticon} Emoticon
  */
 
 import {toString} from 'nlcst-to-string'
 import {modifyChildren} from 'unist-util-modify-children'
 import {emoticon} from 'emoticon'
-
-export const emoticonModifier = modifyChildren(mergeEmoticons)
 
 // Magic numbers.
 //
@@ -30,13 +28,17 @@ const end = []
 
 unpack()
 
+export const emoticonModifier =
+  /** @type {(node: Sentence) => void} */
+  // @ts-expect-error: To do: make types in `unist-util-modify-children` smart.
+  (modifyChildren(mergeEmoticons))
+
 /**
  * Merge emoticons into an `EmoticonNode`.
  *
- * @param {Node} child
+ * @param {SentenceContent} child
  * @param {number} index
- * @param {Parent} parent
- *
+ * @param {Sentence} parent
  */
 function mergeEmoticons(child, index, parent) {
   // Check if `child`s first character could be used to start an emoticon.
@@ -59,7 +61,7 @@ function mergeEmoticons(child, index, parent) {
         end.includes(value.charAt(value.length - 1)) &&
         emoticons.includes(value)
       ) {
-        /** @type {Literal} */
+        /** @type {Emoticon} */
         const emoticonNode = {type: 'EmoticonNode', value}
 
         if (child.position && node.position) {
