@@ -8,19 +8,55 @@
 [![Backers][backers-badge]][collective]
 [![Chat][chat-badge]][chat]
 
-[**nlcst**][nlcst] utility to classify ASCII [emoticon][]s as `EmoticonNode`s.
+[nlcst][] utility to classify ASCII [emoticon][]s as `EmoticonNode`s.
 
-> **Note**: You probably want to use [retext-emoji][].
+## Contents
+
+*   [What is this?](#what-is-this)
+*   [When should I use this?](#when-should-i-use-this)
+*   [Install](#install)
+*   [Use](#use)
+*   [API](#api)
+    *   [`emoticonModifier(node)`](#emoticonmodifiernode)
+*   [Types](#types)
+*   [Compatibility](#compatibility)
+*   [Related](#related)
+*   [Contribute](#contribute)
+*   [License](#license)
+
+## What is this?
+
+This utility searches for emoticons made with punctuation marks and symbols,
+and turns them into separate nodes.
+
+## When should I use this?
+
+This package is a tiny utility that helps when dealing with plain-text emoticons
+in natural language.
+The plugin [`retext-emoji`][retext-emoji] wraps this utility and others at a
+higher-level (easier) abstraction.
 
 ## Install
 
-This package is [ESM only](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c):
-Node 12+ is needed to use it and it must be `import`ed instead of `require`d.
-
-[npm][]:
+This package is [ESM only][esm].
+In Node.js (version 12.20+, 14.14+, 16.0+, 18.0+), install with [npm][]:
 
 ```sh
 npm install nlcst-emoticon-modifier
+```
+
+In Deno with [`esm.sh`][esmsh]:
+
+```js
+import {emoticonModifier} from "https://esm.sh/nlcst-emoticon-modifier@2"
+```
+
+In browsers with [`esm.sh`][esmsh]:
+
+```html
+<script type="module">
+  import {emoticonModifier} from "https://esm.sh/nlcst-emoticon-modifier@2?bundle"
+</script>
 ```
 
 ## Use
@@ -59,30 +95,56 @@ SentenceNode[10]
 
 ## API
 
-This package exports the following identifiers: `emoticonModifier`.
+This package exports the identifier `emoticonModifier`.
 There is no default export.
 
-### `emoticonModifier(sentence)`
+### `emoticonModifier(node)`
 
-Classify ASCII [emoticon][]s as `EmoticonNode`s.
+Classify ASCII [emoticon][]s in `node` ([`Sentence`][sentence]) as
+`EmoticonNode`s.
 
-##### Parameters
+## Types
 
-###### `sentence`
+This package is fully typed with [TypeScript][].
+It exports no additional types.
 
-Node to process ([`Sentence`][sentence]).
+It also registers the `Emoticon` node type with `@types/nlcst`.
+If you’re working with the syntax tree, make sure to import this utility
+somewhere in your types, as that registers the new node types in the tree.
+
+```js
+/**
+ * @typedef {import('nlcst-emoticon-modifier')}
+ */
+
+import {visit} from 'unist-util-visit'
+
+/** @type {import('nlcst').Root} */
+const tree = getNodeSomeHow()
+
+visit(tree, (node) => {
+  // `node` can now be a `Emoticon` node.
+})
+```
+
+## Compatibility
+
+Projects maintained by the unified collective are compatible with all maintained
+versions of Node.js.
+As of now, that is Node.js 12.20+, 14.14+, 16.0+, and 18.0+.
+Our projects sometimes work with older versions, but this is not guaranteed.
 
 ## Related
 
 *   [`nlcst-affix-emoticon-modifier`](https://github.com/syntax-tree/nlcst-affix-emoticon-modifier)
-    — Merge affix emoticons into the previous sentence in nlcst
+    — merge affix emoticons into the previous sentence in nlcst
 *   [`nlcst-emoji-modifier`](https://github.com/syntax-tree/nlcst-emoji-modifier)
-    — Support emoji
+    — support emoji
 
 ## Contribute
 
-See [`contributing.md` in `syntax-tree/.github`][contributing] for ways to get
-started.
+See [`contributing.md`][contributing] in [`syntax-tree/.github`][health] for
+ways to get started.
 See [`support.md`][support] for ways to get help.
 
 This project has a [code of conduct][coc].
@@ -123,15 +185,23 @@ abide by its terms.
 
 [npm]: https://docs.npmjs.com/cli/install
 
+[esm]: https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c
+
+[esmsh]: https://esm.sh
+
+[typescript]: https://www.typescriptlang.org
+
 [license]: license
 
 [author]: https://wooorm.com
 
-[contributing]: https://github.com/syntax-tree/.github/blob/HEAD/contributing.md
+[health]: https://github.com/syntax-tree/.github
 
-[support]: https://github.com/syntax-tree/.github/blob/HEAD/support.md
+[contributing]: https://github.com/syntax-tree/.github/blob/main/contributing.md
 
-[coc]: https://github.com/syntax-tree/.github/blob/HEAD/code-of-conduct.md
+[support]: https://github.com/syntax-tree/.github/blob/main/support.md
+
+[coc]: https://github.com/syntax-tree/.github/blob/main/code-of-conduct.md
 
 [retext-emoji]: https://github.com/retextjs/retext-emoji
 

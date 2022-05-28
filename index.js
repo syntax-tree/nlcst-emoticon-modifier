@@ -19,11 +19,11 @@ import {emoticon} from 'emoticon'
 // has walked 5 characters.
 const maxEmoticonLength = 5
 
-/** @type {Array.<string>} */
+/** @type {Array<string>} */
 const emoticons = []
-/** @type {Array.<string>} */
+/** @type {Array<string>} */
 const start = []
-/** @type {Array.<string>} */
+/** @type {Array<string>} */
 const end = []
 
 unpack()
