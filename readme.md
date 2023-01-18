@@ -8,7 +8,7 @@
 [![Backers][backers-badge]][collective]
 [![Chat][chat-badge]][chat]
 
-[nlcst][] utility to classify ASCII [emoticon][]s as `EmoticonNode`s.
+[nlcst][] utility to classify [ASCII emoticon][wooorm-emoticon]s as `EmoticonNode`s.
 
 ## Contents
 
@@ -18,6 +18,7 @@
 *   [Use](#use)
 *   [API](#api)
     *   [`emoticonModifier(node)`](#emoticonmodifiernode)
+    *   [`Emoticon`](#emoticon)
 *   [Types](#types)
 *   [Compatibility](#compatibility)
 *   [Related](#related)
@@ -39,7 +40,7 @@ higher-level (easier) abstraction.
 ## Install
 
 This package is [ESM only][esm].
-In Node.js (version 12.20+, 14.14+, 16.0+, 18.0+), install with [npm][]:
+In Node.js (version 14.14+ and 16.0+), install with [npm][]:
 
 ```sh
 npm install nlcst-emoticon-modifier
@@ -48,14 +49,14 @@ npm install nlcst-emoticon-modifier
 In Deno with [`esm.sh`][esmsh]:
 
 ```js
-import {emoticonModifier} from "https://esm.sh/nlcst-emoticon-modifier@2"
+import {emoticonModifier} from 'https://esm.sh/nlcst-emoticon-modifier@2'
 ```
 
 In browsers with [`esm.sh`][esmsh]:
 
 ```html
 <script type="module">
-  import {emoticonModifier} from "https://esm.sh/nlcst-emoticon-modifier@2?bundle"
+  import {emoticonModifier} from 'https://esm.sh/nlcst-emoticon-modifier@2?bundle'
 </script>
 ```
 
@@ -95,20 +96,43 @@ SentenceNode[10]
 
 ## API
 
-This package exports the identifier `emoticonModifier`.
+This package exports the identifier [`emoticonModifier`][emoticonmodifier].
 There is no default export.
 
 ### `emoticonModifier(node)`
 
-Classify ASCII [emoticon][]s in `node` ([`Sentence`][sentence]) as
-`EmoticonNode`s.
+Merge emoticons in a `SentenceNode` into `EmoticonNode`s.
+
+###### Parameters
+
+*   `node` ([`Sentence`][sentence])
+    — nlcst sentence to transform
+
+###### Returns
+
+Nothing (`void`).
+
+### `Emoticon`
+
+Emoticon node (TypeScript type).
+
+###### Type
+
+```ts
+import type {Literal} from 'nlcst'
+
+interface Emoticon extends Literal {
+  type: 'EmoticonNode'
+}
+```
 
 ## Types
 
 This package is fully typed with [TypeScript][].
-It exports no additional types.
+It exports the additional type [`Emoticon`][emoticon].
 
-It also registers the `Emoticon` node type with `@types/nlcst`.
+It also registers the `Emoticon` node type with `@types/nlcst` in
+`SentenceContentMap`.
 If you’re working with the syntax tree, make sure to import this utility
 somewhere in your types, as that registers the new node types in the tree.
 
@@ -131,7 +155,7 @@ visit(tree, (node) => {
 
 Projects maintained by the unified collective are compatible with all maintained
 versions of Node.js.
-As of now, that is Node.js 12.20+, 14.14+, 16.0+, and 18.0+.
+As of now, that is Node.js 14.14+ and 16.0+.
 Our projects sometimes work with older versions, but this is not guaranteed.
 
 ## Related
@@ -209,4 +233,8 @@ abide by its terms.
 
 [sentence]: https://github.com/syntax-tree/nlcst#sentence
 
-[emoticon]: https://github.com/wooorm/emoticon
+[wooorm-emoticon]: https://github.com/wooorm/emoticon
+
+[emoticonmodifier]: #emoticonmodifiernode
+
+[emoticon]: #emoticon

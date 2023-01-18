@@ -1,5 +1,8 @@
 import type {Literal} from 'nlcst'
 
+/**
+ * Emoticon node.
+ */
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export interface Emoticon extends Literal {
   type: 'EmoticonNode'
