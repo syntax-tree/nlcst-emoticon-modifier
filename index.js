@@ -28,10 +28,7 @@ const end = []
 
 unpack()
 
-export const emoticonModifier =
-  /** @type {(node: Sentence) => void} */
-  // @ts-expect-error: To do: make types in `unist-util-modify-children` smart.
-  (modifyChildren(mergeEmoticons))
+export const emoticonModifier = modifyChildren(mergeEmoticons)
 
 /**
  * Merge emoticons into an `EmoticonNode`.
