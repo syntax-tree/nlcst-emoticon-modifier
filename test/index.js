@@ -1,6 +1,6 @@
 /**
  * @typedef {import('nlcst').Root} Root
- * @typedef {import('../complex-types').Emoticon} Emoticon
+ * @typedef {import('../complex-types.js').Emoticon} Emoticon
  */
 
 import fs from 'node:fs'

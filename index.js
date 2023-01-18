@@ -1,7 +1,7 @@
 /**
  * @typedef {import('nlcst').Sentence} Sentence
  * @typedef {import('nlcst').SentenceContent} SentenceContent
- * @typedef {import('./complex-types').Emoticon} Emoticon
+ * @typedef {import('./complex-types.js').Emoticon} Emoticon
  */
 
 import {toString} from 'nlcst-to-string'
