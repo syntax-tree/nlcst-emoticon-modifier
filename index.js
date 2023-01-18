@@ -28,14 +28,27 @@ const end = []
 
 unpack()
 
+/**
+ * Merge emoticons in a `SentenceNode` into `EmoticonNode`s.
+ *
+ * @param node
+ *   nlcst sentence to transform.
+ * @returns
+ *   Nothing.
+ */
 export const emoticonModifier = modifyChildren(mergeEmoticons)
 
 /**
  * Merge emoticons into an `EmoticonNode`.
  *
  * @param {SentenceContent} child
+ *   Child.
  * @param {number} index
+ *   Index of `child` in `parent`.
  * @param {Sentence} parent
+ *   Parent node.
+ * @returns {number | undefined}
+ *   Next child to move to.
  */
 function mergeEmoticons(child, index, parent) {
   // Check if `child`s first character could be used to start an emoticon.
@@ -80,6 +93,9 @@ function mergeEmoticons(child, index, parent) {
   }
 }
 
+/**
+ * Generate data.
+ */
 function unpack() {
   let index = -1
 
@@ -88,13 +104,14 @@ function unpack() {
     let offset = -1
 
     while (++offset < subset.length) {
-      emoticons.push(subset[offset])
+      const emoticon = subset[offset]
+      emoticons.push(emoticon)
 
-      let char = subset[offset].charAt(0)
-      if (!start.includes(char)) start.push(char)
+      const head = emoticon.charAt(0)
+      if (!start.includes(head)) start.push(head)
 
-      char = subset[offset].charAt(subset[offset].length - 1)
-      if (!end.includes(char)) end.push(char)
+      const tail = emoticon.charAt(emoticon.length - 1)
+      if (!end.includes(tail)) end.push(tail)
     }
   }
 }
