@@ -5,3 +5,4 @@ index.d.ts
 test/**/*.d.ts
 *.log
 yarn.lock
+!/index.d.ts
