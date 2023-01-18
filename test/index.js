@@ -15,6 +15,7 @@ import {isHidden} from 'is-hidden'
 import {toString} from 'nlcst-to-string'
 import {removePosition} from 'unist-util-remove-position'
 import {emoticonModifier} from '../index.js'
+import * as mod from '../index.js'
 
 const position = unified().use(retextEnglish).use(plugin).use(retextStringify)
 const noPosition = unified()
@@ -28,6 +29,12 @@ const noPosition = unified()
   })
 
 test('emoticonModifier', async () => {
+  assert.deepEqual(
+    Object.keys(mod).sort(),
+    ['emoticonModifier'],
+    'should expose the public api'
+  )
+
   const root = new URL('fixtures/', import.meta.url)
 
   assert.throws(
