@@ -3,9 +3,10 @@
  * @typedef {import('../complex-types.js').Emoticon} Emoticon
  */
 
-import fs from 'node:fs'
-import path from 'node:path'
-import test from 'tape'
+// To do: use `strict` when `retext` updates to expose instances.
+import assert from 'node:assert'
+import fs from 'node:fs/promises'
+import test from 'node:test'
 import {unified} from 'unified'
 import retextStringify from 'retext-stringify'
 import retextEnglish from 'retext-english'
@@ -26,10 +27,10 @@ const noPosition = unified()
     this.Parser.prototype.position = false
   })
 
-test('nlcst-emoticon-modifier()', (t) => {
-  const root = path.join('test', 'fixtures')
+test('emoticonModifier', async () => {
+  const root = new URL('fixtures/', import.meta.url)
 
-  t.throws(
+  assert.throws(
     () => {
       // @ts-expect-error runtime.
       emoticonModifier({})
@@ -38,30 +39,28 @@ test('nlcst-emoticon-modifier()', (t) => {
     'should throw when not given a parent'
   )
 
-  const files = fs.readdirSync(root)
+  const files = await fs.readdir(root)
   let index = -1
 
   while (++index < files.length) {
-    if (isHidden(files[index])) continue
+    const file = files[index]
+
+    if (isHidden(file)) continue
 
     /** @type {Root} */
-    const tree = JSON.parse(
-      String(fs.readFileSync(path.join(root, files[index])))
-    )
-    const name = path.basename(files[index], path.extname(files[index]))
+    const tree = JSON.parse(String(await fs.readFile(new URL(file, root))))
+    const name = file.split('.').slice(0, -1).join('.')
 
-    t.deepLooseEqual(position.parse(toString(tree)), tree, name)
-    t.deepLooseEqual(
+    assert.deepEqual(position.parse(toString(tree)), tree, name)
+    assert.deepEqual(
       noPosition.parse(toString(tree)),
       removePosition(tree, true),
       name + ' (positionless)'
     )
   }
-
-  t.end()
 })
 
-test('emoticons', (t) => {
+test('emoticons', () => {
   let index = -1
 
   while (++index < emoticon.length) {
@@ -78,12 +77,10 @@ test('emoticons', (t) => {
       // @ts-expect-error: fine.
       const node = tree.children[0].children[0].children[6]
 
-      t.strictEqual(node.type, 'EmoticonNode', list[offset] + ' type')
-      t.strictEqual(node.value, list[offset], list[offset] + ' value')
+      assert.strictEqual(node.type, 'EmoticonNode', list[offset] + ' type')
+      assert.strictEqual(node.value, list[offset], list[offset] + ' value')
     }
   }
-
-  t.end()
 })
 
 /**
