@@ -67,9 +67,10 @@ import {emoticonModifier} from 'nlcst-emoticon-modifier'
 import {inspect} from 'unist-util-inspect'
 import {ParseEnglish} from 'parse-english'
 
-const sentence = new ParseEnglish().parse('This makes me feel :).').children[0].children[0]
+const parser = new ParseEnglish()
+parser.tokenizeSentencePlugins.unshift(emoticonModifier)
 
-emoticonModifier(sentence)
+const sentence = parser.parse('This makes me feel :).').children[0].children[0]
 
 console.log(inspect(sentence))
 ```
@@ -77,21 +78,21 @@ console.log(inspect(sentence))
 Yields:
 
 ```txt
-SentenceNode[10]
-├─ WordNode[1]
-│  └─ TextNode: 'This'
-├─ WhiteSpaceNode: ' '
-├─ WordNode[1]
-│  └─ TextNode: 'makes'
-├─ WhiteSpaceNode: ' '
-├─ WordNode[1]
-│  └─ TextNode: 'me'
-├─ WhiteSpaceNode: ' '
-├─ WordNode[1]
-│  └─ TextNode: 'feel'
-├─ WhiteSpaceNode: ' '
-├─ EmoticonNode: ':)'
-└─ PunctuationNode: '.'
+SentenceNode[10] (1:1-1:23, 0-22)
+├─0 WordNode[1] (1:1-1:5, 0-4)
+│   └─0 TextNode "This" (1:1-1:5, 0-4)
+├─1 WhiteSpaceNode " " (1:5-1:6, 4-5)
+├─2 WordNode[1] (1:6-1:11, 5-10)
+│   └─0 TextNode "makes" (1:6-1:11, 5-10)
+├─3 WhiteSpaceNode " " (1:11-1:12, 10-11)
+├─4 WordNode[1] (1:12-1:14, 11-13)
+│   └─0 TextNode "me" (1:12-1:14, 11-13)
+├─5 WhiteSpaceNode " " (1:14-1:15, 13-14)
+├─6 WordNode[1] (1:15-1:19, 14-18)
+│   └─0 TextNode "feel" (1:15-1:19, 14-18)
+├─7 WhiteSpaceNode " " (1:19-1:20, 18-19)
+├─8 EmoticonNode ":)" (1:20-1:22, 19-21)
+└─9 PunctuationNode "." (1:22-1:23, 21-22)
 ```
 
 ## API
