@@ -40,7 +40,7 @@ higher-level (easier) abstraction.
 ## Install
 
 This package is [ESM only][esm].
-In Node.js (version 14.14+ and 16.0+), install with [npm][]:
+In Node.js (version 16+), install with [npm][]:
 
 ```sh
 npm install nlcst-emoticon-modifier
@@ -64,8 +64,8 @@ In browsers with [`esm.sh`][esmsh]:
 
 ```js
 import {emoticonModifier} from 'nlcst-emoticon-modifier'
-import {inspect} from 'unist-util-inspect'
 import {ParseEnglish} from 'parse-english'
+import {inspect} from 'unist-util-inspect'
 
 const parser = new ParseEnglish()
 parser.tokenizeSentencePlugins.unshift(emoticonModifier)
@@ -97,7 +97,8 @@ SentenceNode[10] (1:1-1:23, 0-22)
 
 ## API
 
-This package exports the identifier [`emoticonModifier`][emoticonmodifier].
+This package exports the identifier
+[`emoticonModifier`][api-emoticon-modifier].
 There is no default export.
 
 ### `emoticonModifier(node)`
@@ -120,17 +121,20 @@ Emoticon node (TypeScript type).
 ###### Type
 
 ```ts
-import type {Literal} from 'nlcst'
+import type {Data, Literal} from 'nlcst'
 
 interface Emoticon extends Literal {
   type: 'EmoticonNode'
+  data?: EmoticonData | undefined
 }
+
+interface EmoticonData extends Data {}
 ```
 
 ## Types
 
 This package is fully typed with [TypeScript][].
-It exports the additional type [`Emoticon`][emoticon].
+It exports the additional type [`Emoticon`][api-emoticon].
 
 It also registers the `Emoticon` node type with `@types/nlcst` in
 `SentenceContentMap`.
@@ -154,10 +158,13 @@ visit(tree, function (node) {
 
 ## Compatibility
 
-Projects maintained by the unified collective are compatible with all maintained
+Projects maintained by the unified collective are compatible with maintained
 versions of Node.js.
-As of now, that is Node.js 14.14+ and 16.0+.
-Our projects sometimes work with older versions, but this is not guaranteed.
+
+When we cut a new major release, we drop support for unmaintained versions of
+Node.
+This means we try to keep the current release line,
+`nlcst-emoticon-modifier@^2`, compatible with Node.js 12.
 
 ## Related
 
@@ -194,9 +201,9 @@ abide by its terms.
 
 [downloads]: https://www.npmjs.com/package/nlcst-emoticon-modifier
 
-[size-badge]: https://img.shields.io/bundlephobia/minzip/nlcst-emoticon-modifier.svg
+[size-badge]: https://img.shields.io/badge/dynamic/json?label=minzipped%20size&query=$.size.compressedSize&url=https://deno.bundlejs.com/?q=nlcst-emoticon-modifier
 
-[size]: https://bundlephobia.com/result?p=nlcst-emoticon-modifier
+[size]: https://bundlejs.com/?q=nlcst-emoticon-modifier
 
 [sponsors-badge]: https://opencollective.com/unified/sponsors/badge.svg
 
@@ -236,6 +243,6 @@ abide by its terms.
 
 [wooorm-emoticon]: https://github.com/wooorm/emoticon
 
-[emoticonmodifier]: #emoticonmodifiernode
+[api-emoticon-modifier]: #emoticonmodifiernode
 
-[emoticon]: #emoticon
+[api-emoticon]: #emoticon
