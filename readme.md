@@ -49,14 +49,14 @@ npm install nlcst-emoticon-modifier
 In Deno with [`esm.sh`][esmsh]:
 
 ```js
-import {emoticonModifier} from 'https://esm.sh/nlcst-emoticon-modifier@2'
+import {emoticonModifier} from 'https://esm.sh/nlcst-emoticon-modifier@3'
 ```
 
 In browsers with [`esm.sh`][esmsh]:
 
 ```html
 <script type="module">
-  import {emoticonModifier} from 'https://esm.sh/nlcst-emoticon-modifier@2?bundle'
+  import {emoticonModifier} from 'https://esm.sh/nlcst-emoticon-modifier@3?bundle'
 </script>
 ```
 
