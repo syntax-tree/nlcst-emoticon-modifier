@@ -1,23 +1,35 @@
-import type {Literal} from 'nlcst'
+import type {Data, Literal} from 'nlcst'
+
+// Expose runtime code.
+export {emoticonModifier} from './lib/index.js'
 
 /**
  * Emoticon node.
  */
-// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export interface Emoticon extends Literal {
+  /**
+   * Node type of emoticon node.
+   */
   type: 'EmoticonNode'
+
+  /**
+   * Data associated by the ecosystem.
+   */
+  data?: EmoticonData | undefined
 }
 
+/**
+ * Emoticon node data.
+ */
+export interface EmoticonData extends Data {}
+
+// Register node type.
 declare module 'nlcst' {
-  // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
   interface RootContentMap {
     emoticon: Emoticon
   }
 
-  // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
   interface SentenceContentMap {
     emoticon: Emoticon
   }
 }
-
-export {emoticonModifier} from './lib/index.js'

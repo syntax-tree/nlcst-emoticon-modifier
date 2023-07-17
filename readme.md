@@ -111,7 +111,7 @@ Merge emoticons in a `SentenceNode` into `EmoticonNode`s.
 
 ###### Returns
 
-Nothing (`void`).
+Nothing (`undefined`).
 
 ### `Emoticon`
 
@@ -147,7 +147,7 @@ import {visit} from 'unist-util-visit'
 /** @type {import('nlcst').Root} */
 const tree = getNodeSomeHow()
 
-visit(tree, (node) => {
+visit(tree, function (node) {
   // `node` can now be a `Emoticon` node.
 })
 ```

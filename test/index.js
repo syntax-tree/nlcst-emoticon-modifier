@@ -1,6 +1,5 @@
 /**
  * @typedef {import('nlcst').Root} Root
- * @typedef {import('../complex-types.js').Emoticon} Emoticon
  */
 
 import assert from 'node:assert/strict'
@@ -11,29 +10,20 @@ import {emoticon} from 'emoticon'
 import {isHidden} from 'is-hidden'
 import {toString} from 'nlcst-to-string'
 import {emoticonModifier} from '../index.js'
-import * as mod from '../index.js'
 
 const parser = new ParseEnglish()
 parser.tokenizeSentencePlugins.unshift(emoticonModifier)
 
-test('emoticonModifier', async () => {
-  assert.deepEqual(
-    Object.keys(mod).sort(),
-    ['emoticonModifier'],
-    'should expose the public api'
-  )
+test('emoticonModifier', async function (t) {
+  await t.test('should expose the public api', async function () {
+    assert.deepEqual(Object.keys(await import('../index.js')).sort(), [
+      'emoticonModifier'
+    ])
+  })
+})
 
+test('fixtures', async function (t) {
   const root = new URL('fixtures/', import.meta.url)
-
-  assert.throws(
-    () => {
-      // @ts-expect-error runtime.
-      emoticonModifier({})
-    },
-    /Missing children in `parent`/,
-    'should throw when not given a parent'
-  )
-
   const files = await fs.readdir(root)
   let index = -1
 
@@ -42,16 +32,19 @@ test('emoticonModifier', async () => {
 
     if (isHidden(file)) continue
 
-    /** @type {Root} */
-    const tree = JSON.parse(String(await fs.readFile(new URL(file, root))))
     const name = file.split('.').slice(0, -1).join('.')
-    const input = toString(tree)
 
-    assert.deepEqual(parser.parse(input), tree, name)
+    await t.test(name, async function () {
+      /** @type {Root} */
+      const tree = JSON.parse(String(await fs.readFile(new URL(file, root))))
+      const input = toString(tree)
+
+      assert.deepEqual(parser.parse(input), tree)
+    })
   }
 })
 
-test('emoticons', () => {
+test('emoticons', async function (t) {
   let index = -1
 
   while (++index < emoticon.length) {
@@ -59,13 +52,19 @@ test('emoticons', () => {
     let offset = -1
 
     while (++offset < list.length) {
-      const tree = parser.parse('Who doesn’t like ' + list[offset] + '?')
-      /** @type {Emoticon} */
-      // @ts-expect-error: fine.
-      const node = tree.children[0].children[0].children[6]
+      const value = list[offset]
 
-      assert.strictEqual(node.type, 'EmoticonNode', list[offset] + ' type')
-      assert.strictEqual(node.value, list[offset], list[offset] + ' value')
+      await t.test(value, async function () {
+        const tree = parser.parse('Who doesn’t like ' + value + '?')
+        const paragraph = tree.children[0]
+        assert(paragraph.type === 'ParagraphNode')
+        const sentence = paragraph.children[0]
+        assert(sentence.type === 'SentenceNode')
+        const node = sentence.children[6]
+        assert(node.type === 'EmoticonNode')
+
+        assert.equal(node.value, value)
+      })
     }
   }
 })
