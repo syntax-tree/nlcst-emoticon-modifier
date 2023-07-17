@@ -9,16 +9,17 @@ import {ParseEnglish} from 'parse-english'
 import {emoticon} from 'emoticon'
 import {isHidden} from 'is-hidden'
 import {toString} from 'nlcst-to-string'
-import {emoticonModifier} from '../index.js'
+import {emoticonModifier} from 'nlcst-emoticon-modifier'
 
 const parser = new ParseEnglish()
 parser.tokenizeSentencePlugins.unshift(emoticonModifier)
 
 test('emoticonModifier', async function (t) {
   await t.test('should expose the public api', async function () {
-    assert.deepEqual(Object.keys(await import('../index.js')).sort(), [
-      'emoticonModifier'
-    ])
+    assert.deepEqual(
+      Object.keys(await import('nlcst-emoticon-modifier')).sort(),
+      ['emoticonModifier']
+    )
   })
 })
 
