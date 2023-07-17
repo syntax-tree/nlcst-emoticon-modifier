@@ -10,6 +10,11 @@ export interface Emoticon extends Literal {
 
 declare module 'nlcst' {
   // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+  interface RootContentMap {
+    emoticon: Emoticon
+  }
+
+  // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
   interface SentenceContentMap {
     emoticon: Emoticon
   }

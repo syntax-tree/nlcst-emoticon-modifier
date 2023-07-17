@@ -33,11 +33,11 @@
     "index.js"
   ],
   "dependencies": {
-    "@types/nlcst": "^1.0.0",
-    "@types/unist": "^2.0.0",
+    "@types/nlcst": "^2.0.0",
+    "@types/unist": "^3.0.0",
     "emoticon": "^4.0.0",
-    "nlcst-to-string": "^3.0.0",
-    "unist-util-modify-children": "^3.0.0"
+    "nlcst-to-string": "^4.0.0",
+    "unist-util-modify-children": "^4.0.0"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
